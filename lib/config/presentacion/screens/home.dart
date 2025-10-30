@@ -147,22 +147,11 @@ Widget takeAPhoto(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Filtros de visión artificial'),
+        title: const Text('Filtros'),
       ),
       body: SafeArea(child: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 5),
-            showImageView(),
-            const SizedBox(height: 20),
-            Center(child: takeAPhoto(context)),
-            const SizedBox(
-              height: 20,
-            ), 
-            Center(child: uploadAPhoto(context)), 
-            const SizedBox(
-              height: 20,
-            ),
           ],
         ),
       )),

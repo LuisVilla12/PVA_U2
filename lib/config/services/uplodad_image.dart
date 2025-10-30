@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
+
 class UploadService {
   // Cambia por la IP/host de tu servidor
   static const String baseUrl = 'http://10.0.2.2:8000';

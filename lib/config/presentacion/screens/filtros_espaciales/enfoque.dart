@@ -1,26 +1,29 @@
 import 'dart:typed_data';
+
 import 'package:app_vs/config/menu/side_menu.dart';
 import 'package:app_vs/config/services/uplodad_image.dart';
 import 'package:app_vs/imageSelectorWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class ErosionScreen extends StatefulWidget {
-  static const String name = 'ErosionScreen';
-  const ErosionScreen({super.key});
+class EnfoqueScreen extends StatefulWidget {
+  static const String name = 'EnfoqueScreen';
+  const EnfoqueScreen({super.key});
 
   @override
-  State<ErosionScreen> createState() => _ErosionScreenState();
+  State<EnfoqueScreen> createState() => _EnfoqueScreenState();
 }
 
-class _ErosionScreenState extends State<ErosionScreen> {
+class _EnfoqueScreenState extends State<EnfoqueScreen> {
   int ksize = 5;
 
   @override
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>(); 
     return Scaffold(
-      appBar: AppBar(title: const Text('Erosión')),
+      appBar: AppBar(
+        title: const Text('Filtro de enfoque'),
+      ),
       floatingActionButton: FloatingActionButton( child: Icon(Icons.arrow_back_rounded), onPressed: ()=>{context.pop()}),
       body: SafeArea(
         child: Padding(
@@ -51,7 +54,7 @@ class _ErosionScreenState extends State<ErosionScreen> {
                       try {
                         showDialog(context: context, barrierDismissible: false, builder: (_) => const Center(child: CircularProgressIndicator()));
                         // pasar ksize al servicio
-                        final Uint8List? bytes = await UploadService.uploadImage('/erosion', path, ksize: ksize);
+                        final Uint8List? bytes = await UploadService.uploadImage('/enfoque', path, ksize: ksize);
                         Navigator.of(context).pop(); // cerrar progreso
                         if (bytes == null) {
                           messenger.showSnackBar(const SnackBar(content: Text('No se recibió imagen procesada')));
@@ -61,7 +64,7 @@ class _ErosionScreenState extends State<ErosionScreen> {
                         showDialog(
                           context: context,
                           builder: (_) => AlertDialog(
-                            title: Text('Preview Erosión '),
+                            title: Text('Preview Enfoque'),
                             content: Image.memory(bytes, width: 400, height: 400, fit: BoxFit.contain),
                             actions: [TextButton(
                               onPressed: () => Navigator.of(context).pop(), child: const Text('Cerrar'))],

@@ -1,3 +1,4 @@
+import 'package:app_vs/config/theme/app_theme.dart';
 import 'package:camera/camera.dart';
 import 'package:app_vs/config/router/app_router.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +14,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final selectedColor =0; 
+    final isDarkmode = false;
+
     return MaterialApp.router(
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
+      theme: AppTheme(selectedColor: selectedColor, isDarkmode: isDarkmode)
+          .getTheme(),
     );
   }
 }

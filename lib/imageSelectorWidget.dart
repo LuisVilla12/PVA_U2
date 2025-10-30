@@ -121,10 +121,11 @@ class _ImageSelectorWidgetState extends State<ImageSelectorWidget> {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.only(top: 10),
       child: Column(
         children: [
           const Text('Imagen seleccionada', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 20),
           Image.file(file, width: 350, height: 350, fit: BoxFit.cover),
         ],
       ),
