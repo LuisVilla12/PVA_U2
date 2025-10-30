@@ -15,7 +15,9 @@ import 'package:app_vs/config/presentacion/screens/operaciones_morfologicas/eros
 import 'package:go_router/go_router.dart';
 
 final appRouter = GoRouter(
+  // Pantalla principal
   initialLocation: '/home',
+  // Rutas de las pantallas
   routes: [
     GoRoute(
       path: '/home',
@@ -33,7 +35,6 @@ final appRouter = GoRouter(
       name: CuatificacionScreen.name,
       builder: (context, state) => const CuatificacionScreen(),
     ),
-
     GoRoute(
       path: '/Contraste',
       name: ContrasteScreen.name,

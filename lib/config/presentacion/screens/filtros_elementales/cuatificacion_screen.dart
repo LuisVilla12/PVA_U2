@@ -22,7 +22,6 @@ class _CuatificacionScreenState extends State<CuatificacionScreen> {
     
     return Scaffold(
       appBar: AppBar(title: const Text('Cuantización de niveles')),
-      floatingActionButton: FloatingActionButton( child: Icon(Icons.arrow_back_rounded), onPressed: ()=>{context.pop()}),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

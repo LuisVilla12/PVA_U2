@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:app_vs/config/menu/items_menu.dart';
 import 'package:app_vs/config/menu/side_menu.dart';
 import 'package:app_vs/config/presentacion/screens/camera_screen.dart';
 import 'package:app_vs/config/services/camera_implementation.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String name = 'home_screen';
@@ -18,141 +20,60 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   String imagePath = '';
 
-Widget takeAPhoto(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    return DottedBorder(
-      options: RectDottedBorderOptions(
-        dashPattern: [10, 5],
-        strokeWidth: 2,
-        padding: EdgeInsets.all(30),
-        color: colors.primary,
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(24),
-        color: colors.primary,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Si no hay imagen mostrar el icono de la camara, caso contrario mostrar el preview de la imagen
-            Icon(Icons.camera_alt_outlined, color: Colors.white, size: 40),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: colors.primary,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              icon: const Icon(Icons.camera_alt_outlined),
-              label: imagePath == ''
-                  ? const Text('Capturar una imagen')
-                  : const Text('Volver a tomar una imagen'),
-              onPressed: () async {
-                final imagePathOverlay = await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const CameraScreen()),
-              );
-              if (imagePathOverlay != null) {
-                setState(() {
-                  imagePath = imagePathOverlay;
-                });
-              }
-              }, 
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget uploadAPhoto(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    return DottedBorder(
-      options: RectDottedBorderOptions(
-        dashPattern: [10, 5],
-        strokeWidth: 2,
-        padding: EdgeInsets.all(30),
-        color: colors.primary,
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(24),
-        color: colors.primary,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.upload_file_outlined, color: Colors.white, size: 40),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: colors.primary,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              onPressed: () async {
-                final photoPath =
-                    await CameraServicesImplementation().selectPhoto();
-                if (photoPath == null) return;
-                photoPath;
-                setState(() {
-                  imagePath = photoPath;
-                });
-              },
-              icon: const Icon(Icons.upload_outlined),
-              label: imagePath == ''
-                  ? const Text('Seleccionar una imagen')
-                  : const Text('Seleccionar otra una imagen'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget showImageView() {
-    if (imagePath == '') return const SizedBox.shrink();
-    final file = File(imagePath);
-    if (!file.existsSync()) {
-      return const Padding(
-        padding: EdgeInsets.only(top: 20),
-        child: Text("La imagen no existe o no se pudo cargar."),
-      );
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 20),
-      child: Column(
-        children: [
-        const Text(
-          'Imagen seleccionada',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        Image.file(
-          file,
-          width: 350,
-          height: 350,
-          fit: BoxFit.cover,
-        ),
-      ],),
-    );
-  }
 
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Filtros'),
+        title: const Text('Visión Artificial'),
       ),
       body: SafeArea(child: SingleChildScrollView(
-        child: Column(
-          children: [
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: GridView.count(
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio: 1.6,
+                    children: appMenuItems.map((item) {
+                      return InkWell(
+                        onTap: () {
+                          context.go(item.link);
+                          },
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary.withOpacity(0.08),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Theme.of(context).colorScheme.primary.withOpacity(0.12)),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(item.icon, size: 28, color: Theme.of(context).colorScheme.primary),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  item.title,
+                                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+              ),
+            ],
+          ),
         ),
       )),
       drawer: SideMenu(scaffoldKey: scaffoldKey),

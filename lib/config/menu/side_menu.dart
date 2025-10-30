@@ -35,7 +35,7 @@ class _SideMenuState extends State<SideMenu> {
           child: const Text('FILTROS ELEMENTALES ', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
         ),
         // Muestra las primeras tres opciones del menú
-        ...appMenuItems.asMap().entries.where((entry)=> entry.key<=4).map((entry) {
+        ...appMenuItems.asMap().entries.where((entry)=>entry.key<=4).map((entry) {
           final index = entry.key;
           final item = entry.value;
           return NavigationDrawerDestination(

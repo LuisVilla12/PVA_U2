@@ -24,7 +24,6 @@ class _DesonfoqueScreenState extends State<DesonfoqueScreen> {
       appBar: AppBar(
         title: const Text('Desenfoque Gaussiano'),
       ),
-      floatingActionButton: FloatingActionButton( child: Icon(Icons.arrow_back_rounded), onPressed: ()=>{context.pop()}),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

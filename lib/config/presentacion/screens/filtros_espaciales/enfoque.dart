@@ -24,7 +24,6 @@ class _EnfoqueScreenState extends State<EnfoqueScreen> {
       appBar: AppBar(
         title: const Text('Filtro de enfoque'),
       ),
-      floatingActionButton: FloatingActionButton( child: Icon(Icons.arrow_back_rounded), onPressed: ()=>{context.pop()}),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

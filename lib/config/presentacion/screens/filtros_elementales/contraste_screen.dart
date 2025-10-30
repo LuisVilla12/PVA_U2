@@ -22,7 +22,6 @@ class _ContrasteScreenState extends State<ContrasteScreen> {
     final scaffoldKey = GlobalKey<ScaffoldState>(); 
     return Scaffold(
       appBar: AppBar(title: Text('Contraste en image'),),
-      floatingActionButton: FloatingActionButton( child: Icon(Icons.arrow_back_rounded), onPressed: ()=>{context.pop()}),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

@@ -21,7 +21,6 @@ class _AperturaScreenState extends State<AperturaScreen> {
     final scaffoldKey = GlobalKey<ScaffoldState>(); 
     return Scaffold(
       appBar: AppBar(title: const Text('Apertura')),
-      floatingActionButton: FloatingActionButton( child: Icon(Icons.arrow_back_rounded), onPressed: ()=>{context.pop()}),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -63,8 +62,11 @@ class _AperturaScreenState extends State<AperturaScreen> {
                           builder: (_) => AlertDialog(
                             title: Text('Preview cierre '),
                             content: Image.memory(bytes, width: 400, height: 400, fit: BoxFit.contain),
-                            actions: [TextButton(
-                              onPressed: () => Navigator.of(context).pop(), child: const Text('Cerrar'))],
+                            actions: [
+                              IconButton.filled(onPressed: ()=>{}, icon: Icon(Icons.download)),
+                              TextButton(
+                              onPressed: () => Navigator.of(context).pop(), child: const Text('Cerrar'))
+                              ],
                           ),
                         );
                       } catch (e) {

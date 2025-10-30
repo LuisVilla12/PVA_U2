@@ -21,7 +21,6 @@ class _TranformacionesScreenState extends State<TranformacionesScreen> {
     final scaffoldKey = GlobalKey<ScaffoldState>(); 
     return Scaffold(
       appBar: AppBar(title: const Text('Transformaciones Gamma')),
-      floatingActionButton: FloatingActionButton( child: Icon(Icons.arrow_back_rounded), onPressed: ()=>{context.pop()}),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

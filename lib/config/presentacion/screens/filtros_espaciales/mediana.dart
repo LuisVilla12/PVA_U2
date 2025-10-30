@@ -24,7 +24,6 @@ class _MedianaScreenState extends State<MedianaScreen> {
       appBar: AppBar(
         title: const Text('Filtro Mediana'),
       ),
-      floatingActionButton: FloatingActionButton( child: Icon(Icons.arrow_back_rounded), onPressed: ()=>{context.pop()}),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

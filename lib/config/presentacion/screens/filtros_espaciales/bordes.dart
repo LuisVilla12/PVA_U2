@@ -24,7 +24,6 @@ class _BordesScreenState extends State<BordesScreen> {
       appBar: AppBar(
         title: const Text('Detección de bordes'),
       ),
-      floatingActionButton: FloatingActionButton( child: Icon(Icons.arrow_back_rounded), onPressed: ()=>{context.pop()}),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
