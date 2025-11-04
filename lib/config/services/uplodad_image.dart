@@ -1,6 +1,9 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:path_provider/path_provider.dart'; // <-- agregado
+
 
 
 class UploadService {
@@ -24,4 +27,42 @@ class UploadService {
       throw Exception('Server ${streamed.statusCode}: $body');
     }
   }
+  
+  //   static Future<String> saveImageBytes(Uint8List bytes, String filename) async {
+  //   final dir = await getApplicationDocumentsDirectory();
+  //   final file = File('${dir.path}/$filename');
+  //   await file.writeAsBytes(bytes);
+  //   return file.path;
+  // }
+static Future<String> saveImageBytes(Uint8List bytes, String filename) async {
+    try {
+      // Usar directorio de descargas o imágenes (más accesible que documents)
+      Directory? directory;
+      if (Platform.isAndroid) {
+        // En Android, guardar en Downloads
+        directory = Directory('/storage/emulated/0/Download');
+      } else {
+        // En iOS u otros, usar documents
+        directory = await getApplicationDocumentsDirectory();
+      }
+
+      // Crear subdirectorio para nuestra app
+      final appDir = Directory('${directory.path}/app_vs_images');
+      if (!await appDir.exists()) {
+        await appDir.create(recursive: true);
+      }
+
+      // Guardar archivo con timestamp para evitar sobreescribir
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final file = File('${appDir.path}/${timestamp}_$filename');
+      await file.writeAsBytes(bytes);
+
+      print('Imagen guardada en: ${file.path}');
+      return file.path;
+    } catch (e) {
+      print('Error al guardar imagen: $e');
+      rethrow;
+    }
+  }
 }
+
