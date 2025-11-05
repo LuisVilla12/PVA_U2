@@ -13,6 +13,9 @@ class _CameraScreenState extends State<CameraScreen> {
   CameraController? _controller;
   Future<void>? _initializeControllerFuture;
 
+  List<CameraDescription>? _cameras;
+  int _cameraIndex = 0; // 0 = primera cámara, 1 = segunda cámara, etc.
+
   @override
   void initState() {
     super.initState();
@@ -21,15 +24,16 @@ class _CameraScreenState extends State<CameraScreen> {
 
   @override
   void dispose() {
-    super.dispose();
     _controller?.dispose();
-
+    super.dispose();
   }
 
   Future<void> _initializeCamera() async {
     try {
-      final cameras = await availableCameras();
-      final camera = cameras.first;
+      _cameras = await availableCameras();
+
+      // Garantizar que haya al menos una cámara
+      final camera = _cameras![_cameraIndex];
 
       _controller = CameraController(
         camera,
@@ -40,18 +44,39 @@ class _CameraScreenState extends State<CameraScreen> {
       _initializeControllerFuture = _controller!.initialize();
       setState(() {});
     } catch (e) {
-      print('Error al inicializar la cámara: $e');
+      print("Error al inicializar la cámara: $e");
     }
+  }
+
+  Future<void> _switchCamera() async {
+    if (_cameras == null || _cameras!.length < 2) return;
+
+    // Cambia el índice (0 → 1 → 0)
+    _cameraIndex = (_cameraIndex + 1) % _cameras!.length;
+
+    await _controller?.dispose(); // Cerrar cámara actual
+
+    // Inicializar la nueva cámara
+    _controller = CameraController(
+      _cameras![_cameraIndex],
+      ResolutionPreset.ultraHigh,
+      enableAudio: false,
+    );
+
+    _initializeControllerFuture = _controller!.initialize();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+
     if (_controller == null || _initializeControllerFuture == null) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       );
     }
+
     return Scaffold(
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
@@ -59,10 +84,24 @@ class _CameraScreenState extends State<CameraScreen> {
           if (snapshot.connectionState == ConnectionState.done) {
             return Stack(
               children: [
-                // CameraPreview(_controller!),
                 SizedBox.expand(
                   child: CameraPreview(_controller!),
                 ),
+
+                // ✅ Botón para cambiar cámara
+                Positioned(
+                  top: 40,
+                  right: 20,
+                  child: FloatingActionButton(
+                    heroTag: "switch_camera",
+                    mini: true,
+                    backgroundColor: colors.primary,
+                    onPressed: _switchCamera,
+                    child: const Icon(Icons.cameraswitch, color: Colors.white),
+                  ),
+                ),
+
+                // ✅ Botón de tomar foto
                 Positioned(
                   bottom: 40,
                   left: 0,
@@ -84,17 +123,16 @@ class _CameraScreenState extends State<CameraScreen> {
                                     PreviewScreen(imagePath: picture.path),
                               ),
                             );
-                            // Solo si se confirmó la imagen
+
                             if (result != null && result is String) {
-                              Navigator.pop(context,
-                                  result); // Regresa a Home con la imagen
+                              Navigator.pop(context, result);
                             }
                           }
                         } catch (e) {
-                          // print('Error al tomar foto: $e');
+                          print("Error al tomar foto: $e");
                         }
                       },
-                      child: Icon(Icons.camera, color: Colors.white),
+                      child: const Icon(Icons.camera, color: Colors.white),
                     ),
                   ),
                 ),

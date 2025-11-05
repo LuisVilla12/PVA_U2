@@ -4,7 +4,6 @@ import 'package:app_vs/config/menu/side_menu.dart';
 import 'package:app_vs/config/services/uplodad_image.dart';
 import 'package:app_vs/imageSelectorWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 class CierreScreen extends StatefulWidget {
   static const String name = 'CierreScreen';
   const CierreScreen({super.key});
@@ -61,14 +60,14 @@ class _CierreScreenState extends State<CierreScreen> {
                         showDialog(
                           context: context,
                           builder: (_) => AlertDialog(
-                            title: Text('Preview cierre '),
+                            title: Text('Preview cierre (ksize=$ksize)'),
                             content: Image.memory(bytes, width: 400, height: 400, fit: BoxFit.contain),
                             actions: [
                               IconButton(
                                 icon: const Icon(Icons.download),
                                 onPressed: () async {
                                   try {
-                                    await UploadService.saveImageBytes(bytes, 'contraste.png');
+                                    await UploadService.saveImageBytes(bytes, 'cierre.png');
                                     messenger.showSnackBar(const SnackBar(content: Text('Imagen guardada correctamente')));
                                   } catch (e) {
                                     messenger.showSnackBar(SnackBar(content: Text('Error al guardar imagen: $e')));

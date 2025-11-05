@@ -4,7 +4,6 @@ import 'package:app_vs/config/menu/side_menu.dart';
 import 'package:app_vs/config/services/uplodad_image.dart';
 import 'package:app_vs/imageSelectorWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class DesonfoqueScreen extends StatefulWidget {
   static const String name = 'DesonfoqueScreen';
