@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 List<CameraDescription> cameras = [];
 
 void main() async {
+  // Obtiene el listado de lac camaras
   cameras = await availableCameras();
   runApp(const MainApp());
 }
@@ -18,6 +19,7 @@ class MainApp extends StatelessWidget {
     final isDarkmode = false;
 
     return MaterialApp.router(
+      // Define las rutas con GoRouter
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
       theme: AppTheme(selectedColor: selectedColor, isDarkmode: isDarkmode)

@@ -14,6 +14,7 @@ import 'package:app_vs/config/presentacion/screens/operaciones_morfologicas/dila
 import 'package:app_vs/config/presentacion/screens/operaciones_morfologicas/erosion.dart';
 import 'package:go_router/go_router.dart';
 
+// Define las rutas de la aplicación utilizando GoRouter
 final appRouter = GoRouter(
   // Pantalla principal
   initialLocation: '/home',

@@ -20,6 +20,7 @@ class _MedianaScreenState extends State<MedianaScreen> {
   @override
   Widget build(BuildContext context) {
   final scaffoldKey = GlobalKey<ScaffoldState>(); 
+  // Pantalla para el filtro espacial mediana
     return Scaffold(
       appBar: AppBar(
         title: const Text('Filtro Mediana'),
@@ -63,9 +64,21 @@ class _MedianaScreenState extends State<MedianaScreen> {
                         showDialog(
                           context: context,
                           builder: (_) => AlertDialog(
-                            title: Text('Preview Mediana '),
+                            title: Text('Preview Mediana (ksize=$ksize)'),
                             content: Image.memory(bytes, width: 400, height: 400, fit: BoxFit.contain),
-                            actions: [TextButton(
+                            actions: [
+                              IconButton(
+                                icon: const Icon(Icons.download),
+                                onPressed: () async {
+                                  try {
+                                    await UploadService.saveImageBytes(bytes, 'mediana.png');
+                                    messenger.showSnackBar(const SnackBar(content: Text('Imagen guardada correctamente')));
+                                  } catch (e) {
+                                    messenger.showSnackBar(SnackBar(content: Text('Error al guardar imagen: $e')));
+                                  }
+                                },
+                              ),
+                              TextButton(
                               onPressed: () => Navigator.of(context).pop(), child: const Text('Cerrar'))],
                           ),
                         );

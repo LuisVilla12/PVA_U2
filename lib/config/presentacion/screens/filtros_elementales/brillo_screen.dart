@@ -19,6 +19,7 @@ class _BrilloScreenState extends State<BrilloScreen> {
   @override
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>(); 
+    // Pantalla para el filtro elemental brillo 
     return Scaffold(
       appBar: AppBar(title: const Text('Brillo')),
       body: SafeArea(
@@ -60,9 +61,21 @@ class _BrilloScreenState extends State<BrilloScreen> {
                         showDialog(
                           context: context,
                           builder: (_) => AlertDialog(
-                            title: Text('Preview brillo '),
+                            title: Text('Preview brillo (ksize=$ksize)'),
                             content: Image.memory(bytes, width: 400, height: 400, fit: BoxFit.contain),
-                            actions: [TextButton(
+                            actions: [
+                              IconButton(
+                                icon: const Icon(Icons.download),
+                                onPressed: () async {
+                                  try {
+                                    await UploadService.saveImageBytes(bytes, 'brillo.png');
+                                    messenger.showSnackBar(const SnackBar(content: Text('Imagen guardada correctamente')));
+                                  } catch (e) {
+                                    messenger.showSnackBar(SnackBar(content: Text('Error al guardar imagen: $e')));
+                                  }
+                                },
+                              ),
+                              TextButton(
                               onPressed: () => Navigator.of(context).pop(), child: const Text('Cerrar'))],
                           ),
                         );

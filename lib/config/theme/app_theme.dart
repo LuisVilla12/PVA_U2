@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Define los temas de la aplicación
 const List<Map<String, dynamic>> colorOptions = [
   {'name': 'Indigo Profundo', 'color': Colors.indigo},
   {'name': 'Verde Azulado', 'color': Colors.teal},
@@ -30,6 +31,7 @@ class AppTheme {
   ThemeData getTheme ()=>ThemeData(
     useMaterial3: true,
     brightness: isDarkmode? Brightness.dark : Brightness.light,
+    // Coloca el tema seleccionado
     colorSchemeSeed: colorOptions[selectedColor]['color'],
     appBarTheme: const AppBarTheme(
       centerTitle: false

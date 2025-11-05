@@ -19,6 +19,7 @@ class _AperturaScreenState extends State<AperturaScreen> {
   @override
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>(); 
+    // Pantalla para operaciones morfologicas apertura
     return Scaffold(
       appBar: AppBar(title: const Text('Apertura')),
       body: SafeArea(
@@ -60,10 +61,20 @@ class _AperturaScreenState extends State<AperturaScreen> {
                         showDialog(
                           context: context,
                           builder: (_) => AlertDialog(
-                            title: Text('Preview cierre '),
+                            title: Text('Preview Apertura (ksize=$ksize)'),
                             content: Image.memory(bytes, width: 400, height: 400, fit: BoxFit.contain),
                             actions: [
-                              IconButton.filled(onPressed: ()=>{}, icon: Icon(Icons.download)),
+                              IconButton(
+                                icon: const Icon(Icons.download),
+                                onPressed: () async {
+                                  try {
+                                    await UploadService.saveImageBytes(bytes, 'apertura.png');
+                                    messenger.showSnackBar(const SnackBar(content: Text('Imagen guardada correctamente')));
+                                  } catch (e) {
+                                    messenger.showSnackBar(SnackBar(content: Text('Error al guardar imagen: $e')));
+                                  }
+                                },
+                              ),
                               TextButton(
                               onPressed: () => Navigator.of(context).pop(), child: const Text('Cerrar'))
                               ],

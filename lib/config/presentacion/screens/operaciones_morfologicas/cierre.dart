@@ -18,7 +18,8 @@ class _CierreScreenState extends State<CierreScreen> {
   
   @override
   Widget build(BuildContext context) {
-    final scaffoldKey = GlobalKey<ScaffoldState>(); 
+    final scaffoldKey = GlobalKey<ScaffoldState>();
+    // Pantalla para operaciones morfologicas cierre
     return Scaffold(
       appBar: AppBar(title: const Text('Cierre')),
       body: SafeArea(
@@ -62,7 +63,19 @@ class _CierreScreenState extends State<CierreScreen> {
                           builder: (_) => AlertDialog(
                             title: Text('Preview cierre '),
                             content: Image.memory(bytes, width: 400, height: 400, fit: BoxFit.contain),
-                            actions: [TextButton(
+                            actions: [
+                              IconButton(
+                                icon: const Icon(Icons.download),
+                                onPressed: () async {
+                                  try {
+                                    await UploadService.saveImageBytes(bytes, 'contraste.png');
+                                    messenger.showSnackBar(const SnackBar(content: Text('Imagen guardada correctamente')));
+                                  } catch (e) {
+                                    messenger.showSnackBar(SnackBar(content: Text('Error al guardar imagen: $e')));
+                                  }
+                                },
+                              ),
+                              TextButton(
                               onPressed: () => Navigator.of(context).pop(), child: const Text('Cerrar'))],
                           ),
                         );

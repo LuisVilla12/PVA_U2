@@ -5,7 +5,7 @@ import 'package:app_vs/config/presentacion/screens/camera_screen.dart';
 import 'package:app_vs/config/services/camera_implementation.dart';
 
 class ImageSelectorWidget extends StatefulWidget {
-  /// Callback opcional: recibe la ruta local de la imagen cada vez que cambia
+  //Recibe la ruta local de la imagen cada vez que cambia
   final void Function(String path)? onImageSelected;
   final String? initialImagePath;
 
@@ -24,6 +24,7 @@ class _ImageSelectorWidgetState extends State<ImageSelectorWidget> {
     imagePath = widget.initialImagePath ?? '';
   }
 
+  // Funcion que permite capturar una imagen con la cámara
   Future<void> _captureWithCamera() async {
     final imagePathOverlay = await Navigator.push(
       context,
@@ -34,7 +35,7 @@ class _ImageSelectorWidgetState extends State<ImageSelectorWidget> {
       widget.onImageSelected?.call(imagePathOverlay);
     }
   }
-
+  // Funcion que permite seleccionar la imagen
   Future<void> _selectFromGallery() async {
     final photoPath = await CameraServicesImplementation().selectPhoto();
     if (photoPath == null) return;
@@ -42,6 +43,7 @@ class _ImageSelectorWidgetState extends State<ImageSelectorWidget> {
     widget.onImageSelected?.call(photoPath);
   }
 
+  // Funcion que permite tomar la foto de la camara
   Widget _takeAPhoto(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     return DottedBorder(
@@ -75,7 +77,7 @@ class _ImageSelectorWidgetState extends State<ImageSelectorWidget> {
       ),
     );
   }
-
+  // Widget para subir una foto
   Widget _uploadAPhoto(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     return DottedBorder(
@@ -109,7 +111,7 @@ class _ImageSelectorWidgetState extends State<ImageSelectorWidget> {
       ),
     );
   }
-
+  // Widget para mostrar la imagen
   Widget _showImageView() {
     if (imagePath == '') return const SizedBox.shrink();
     final file = File(imagePath);

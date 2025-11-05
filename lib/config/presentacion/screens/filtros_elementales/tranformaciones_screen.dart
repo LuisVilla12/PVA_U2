@@ -19,6 +19,7 @@ class _TranformacionesScreenState extends State<TranformacionesScreen> {
   @override
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>(); 
+    // Pantalla para el filtro elemental tranformaciones
     return Scaffold(
       appBar: AppBar(title: const Text('Transformaciones Gamma')),
       body: SafeArea(
@@ -60,9 +61,20 @@ class _TranformacionesScreenState extends State<TranformacionesScreen> {
                         showDialog(
                           context: context,
                           builder: (_) => AlertDialog(
-                            title: Text('Preview Transformaciones Gamma '),
+                            title: Text('Preview Transformaciones Gamma (ksize=$ksize)'),
                             content: Image.memory(bytes, width: 400, height: 400, fit: BoxFit.contain),
-                            actions: [TextButton(
+                            actions: [
+                              IconButton(
+                                icon: const Icon(Icons.download),
+                                onPressed: () async {
+                                  try {
+                                    await UploadService.saveImageBytes(bytes, 'gamma.png');
+                                    messenger.showSnackBar(const SnackBar(content: Text('Imagen guardada correctamente')));
+                                  } catch (e) {
+                                    messenger.showSnackBar(SnackBar(content: Text('Error al guardar imagen: $e')));
+                                  }
+                                },
+                              ),TextButton(
                               onPressed: () => Navigator.of(context).pop(), child: const Text('Cerrar'))],
                           ),
                         );

@@ -20,6 +20,7 @@ class _ContrasteScreenState extends State<ContrasteScreen> {
   @override
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>(); 
+    // Pantalla para el filtro elemental contraste
     return Scaffold(
       appBar: AppBar(title: Text('Contraste en image'),),
       body: SafeArea(
@@ -61,7 +62,7 @@ class _ContrasteScreenState extends State<ContrasteScreen> {
                         showDialog(
                           context: context,
                           builder: (_) => AlertDialog(
-                            title: Text('Preview contraste '),
+                            title: Text('Preview contraste (ksize=$ksize) '),
                             content: Image.memory(bytes, width: 400, height: 400, fit: BoxFit.contain),
                             actions: [
                               IconButton(

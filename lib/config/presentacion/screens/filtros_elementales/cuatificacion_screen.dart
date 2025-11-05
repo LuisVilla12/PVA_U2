@@ -19,7 +19,7 @@ class _CuatificacionScreenState extends State<CuatificacionScreen> {
   @override
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>(); 
-    
+    // Pantalla para el filtro elemental cuantificación
     return Scaffold(
       appBar: AppBar(title: const Text('Cuantización de niveles')),
       body: SafeArea(
@@ -61,9 +61,21 @@ class _CuatificacionScreenState extends State<CuatificacionScreen> {
                         showDialog(
                           context: context,
                           builder: (_) => AlertDialog(
-                            title: Text('Preview Cuantificación '),
+                            title: Text('Preview Cuantificación (ksize=$ksize)'),
                             content: Image.memory(bytes, width: 400, height: 400, fit: BoxFit.contain),
-                            actions: [TextButton(
+                            actions: [
+                              IconButton(
+                                icon: const Icon(Icons.download),
+                                onPressed: () async {
+                                  try {
+                                    await UploadService.saveImageBytes(bytes, 'cuantificacion.png');
+                                    messenger.showSnackBar(const SnackBar(content: Text('Imagen guardada correctamente')));
+                                  } catch (e) {
+                                    messenger.showSnackBar(SnackBar(content: Text('Error al guardar imagen: $e')));
+                                  }
+                                },
+                              ),
+                              TextButton(
                               onPressed: () => Navigator.of(context).pop(), child: const Text('Cerrar'))],
                           ),
                         );
