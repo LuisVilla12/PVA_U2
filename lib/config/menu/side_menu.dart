@@ -104,6 +104,32 @@ class _SideMenuState extends State<SideMenu> {
             ),
           );
         }),
+        Padding(
+          padding: EdgeInsets.fromLTRB(28, 0, 16, 0),
+          child: Divider(
+            color: colors.primary.withOpacity(0.5),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 10, 16, 10),
+          child: const Text('OTROS', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+        ),
+        ...appMenuItems.asMap().entries.where((entry)=> entry.key>12).map((entry) {
+          final index = entry.key;
+          final item = entry.value;
+          return NavigationDrawerDestination(
+            icon: Icon(
+              item.icon,
+              color: navDrawerIndex == index ? Colors.white : colors.primary,
+            ),
+            label: Text(
+              item.title,
+              style: TextStyle(
+                color: navDrawerIndex == index ? Colors.white : colors.primary,fontSize: 15,
+              ),
+            ),
+          );
+        }),
         const SizedBox(height: 20),
         Center(child: const Text('VERSION: 2.1.0', style: TextStyle(fontSize: 12)))
       ],

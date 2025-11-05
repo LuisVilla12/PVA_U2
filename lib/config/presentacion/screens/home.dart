@@ -1,10 +1,5 @@
-import 'dart:io';
-
 import 'package:app_vs/config/menu/items_menu.dart';
 import 'package:app_vs/config/menu/side_menu.dart';
-import 'package:app_vs/config/presentacion/screens/camera_screen.dart';
-import 'package:app_vs/config/services/camera_implementation.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

@@ -109,6 +109,41 @@ async def _process_upload(sample_file: UploadFile, operation: str, ksize: int = 
                 lookUpTable[0,i] = np.clip(pow(i / 255.0, gamma) * 255.0, 0, 255)
             result = cv2.LUT(img, lookUpTable)
             
+        elif operation == "mosaic":
+            block_size = max(2, int(ksize))  # el parámetro que envíes desde Flutter
+            h, w = img.shape[:2]
+            result = img.copy()
+
+            for y in range(0, h, block_size):
+                for x in range(0, w, block_size):
+                    y_end = min(y + block_size, h)
+                    x_end = min(x + block_size, w)
+
+                    block = img[y:y_end, x:x_end]
+                    color = block.mean(axis=(0, 1)).astype(np.uint8)
+                    result[y:y_end, x:x_end] = color
+        
+        elif operation == "salt_pepper":
+            amount = max(0.001, float(ksize) / 1000)  # Control del nivel de ruido
+            output = img.copy()
+
+            # Cantidad de píxeles a alterar
+            num_pixels = int(amount * img.size)
+
+            # Agregar "sal" (blanco)
+            for _ in range(num_pixels // 2):
+                y = np.random.randint(0, img.shape[0])
+                x = np.random.randint(0, img.shape[1])
+                output[y, x] = [255, 255, 255]
+
+            # Agregar "pimienta" (negro)
+            for _ in range(num_pixels // 2):
+                y = np.random.randint(0, img.shape[0])
+                x = np.random.randint(0, img.shape[1])
+                output[y, x] = [0, 0, 0]
+
+            result = output
+        
         else:
             raise HTTPException(status_code=400, detail="Operación no soportada")
         success, buf = cv2.imencode('.png', result)
@@ -175,3 +210,12 @@ async def cierre(sample_file: UploadFile = File(...), ksize: int = Query(5)):
 @app.post("/transformaciones")
 async def cierre(sample_file: UploadFile = File(...), ksize: int = Query(5)):
     return await _process_upload(sample_file, "transformaciones", ksize)
+
+@app.post("/mosaic")
+async def cierre(sample_file: UploadFile = File(...), ksize: int = Query(5)):
+    return await _process_upload(sample_file, "mosaic", ksize)
+
+@app.post("/salt_pepper")
+async def cierre(sample_file: UploadFile = File(...), ksize: int = Query(5)):
+    return await _process_upload(sample_file, "salt_pepper", ksize)
+

@@ -12,6 +12,8 @@ import 'package:app_vs/config/presentacion/screens/operaciones_morfologicas/aper
 import 'package:app_vs/config/presentacion/screens/operaciones_morfologicas/cierre.dart';
 import 'package:app_vs/config/presentacion/screens/operaciones_morfologicas/dilatacion.dart';
 import 'package:app_vs/config/presentacion/screens/operaciones_morfologicas/erosion.dart';
+import 'package:app_vs/config/presentacion/screens/other/mosaic.dart';
+import 'package:app_vs/config/presentacion/screens/other/salt.dart';
 import 'package:go_router/go_router.dart';
 
 // Define las rutas de la aplicación utilizando GoRouter
@@ -93,6 +95,17 @@ final appRouter = GoRouter(
       path: '/Cierre',
       name: CierreScreen.name,
       builder: (context, state) => const CierreScreen(),
+    ),
+    // Otros filtros
+    GoRoute(
+      path: '/mosaic',
+      name: MosaicScreen.name,
+      builder: (context, state) => const MosaicScreen(),
+    ),
+    GoRoute(
+      path: '/salt_pepper',
+      name: SaltPaperScreen.name,
+      builder: (context, state) => const SaltPaperScreen(),
     ),
   ],
 );

@@ -80,4 +80,20 @@ const appMenuItems = <MenuItem>[
     link: '/Cierre',
     icon: Icons.highlight_remove_outlined, // Icono de cierre
   ),
+
+  MenuItem(
+    title: 'Mosaico',
+    link: '/mosaic',
+    icon: Icons.grid_view, // Icono de cierre
+  ),
+  MenuItem(
+    title: 'Sal y Pimienta',
+    link: '/salt_pepper',
+    icon: Icons.grain, // Icono de cierre
+  ),
+  MenuItem(
+    title: 'Inicio',
+    link: '/home',
+    icon: Icons.home_filled, // Icono de cierre
+  ),
 ];
